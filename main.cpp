@@ -36,6 +36,7 @@ class FunctionNVarieblesArea {
             cin.get( slashN ) ;
         } //
     } // Kill the top three lines
+    // final test
 
 } ;
 
