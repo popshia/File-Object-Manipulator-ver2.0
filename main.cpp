@@ -24,11 +24,7 @@ class FunctionNVarieblesArea {
     char slashN = '\0' ;
 
 
-    // test test test
-    // ewrofijwerojfoijfoiwejf
-    // test again
-    // runruncar branch
-    //dpfksdopkfsdkf
+
     void ReadNCopy() {
         getline( cin, uselessShit ) ;
         cin.get( slashN ) ;
