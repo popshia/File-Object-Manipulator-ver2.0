@@ -28,6 +28,7 @@ class FunctionNVarieblesArea {
     // ewrofijwerojfoijfoiwejf
     // test again
     // runruncar branch
+    //dpfksdopkfsdkf
     void ReadNCopy() {
         getline( cin, uselessShit ) ;
         cin.get( slashN ) ;
