@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1538290009 source:c:\users\b1232\desktop\Åª®Ñ\data stucture\file object manipulator\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+
