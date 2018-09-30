@@ -23,10 +23,6 @@ class FunctionNVarieblesArea {
     string uselessShit = "\0" ;
     char slashN = '\0' ;
 
-
-    // test test test
-    // ewrofijwerojfoijfoiwejf
-    // test again
     void ReadNCopy() {
         getline( cin, uselessShit ) ;
         cin.get( slashN ) ;
