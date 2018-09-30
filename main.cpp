@@ -1,4 +1,5 @@
-// 10627130 ¸ê¤u¤G¥Ò ªL«a¨} & 10627131 ¸ê¤u¤G¥Ò §õ®mŞ³
+https://github.com/popshia/File-Object-Manipulator-ver2.0/invitations
+// 10627130 è³‡å·¥äºŒç”² æ—å† è‰¯ & 10627131 è³‡å·¥äºŒç”² æå³»ç‘‹
 #include <iostream> // cout, endl
 #include <fstream> // open, is_open, close, ignore
 #include <string> // string, find_last_of, substr
