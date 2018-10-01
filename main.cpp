@@ -36,6 +36,7 @@ public:
         for ( int i = 0 ; ! cin.eof() ; i ++ ) {
             getline( cin, dataBase[i].wholeSentence ) ;
             cin.get( slashN ) ;
+<<<<<<< HEAD
         } // input the data to dataBase
         
         if ( FileN == 204 ) {
@@ -49,6 +50,12 @@ public:
         } // copy to the new "copy205.txt" file
     } // ReadNCopy()
     
+=======
+        } //
+    } // Kill the top three lines
+    // final test
+
+>>>>>>> c3b1cfd507869d98811080ced347b137304cc804
 } ;
 
 int main() {
