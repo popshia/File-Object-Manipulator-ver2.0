@@ -20,22 +20,23 @@ struct DataBase {
 
 class FunctionNVarieblesArea {
     vector<DataBase> dataBase ;
-    string uselessShit = "\0" ;
     char slashN = '\0' ;
 
 public:
 
     void ReadNCopy() {
+        string uselessShit = "\0" ;
         getline( cin, uselessShit ) ;
-        cin.get( slashN ) ;
+        // cin.get( slashN ) ;
         getline( cin, uselessShit ) ;
-        cin.get( slashN ) ;
+        // cin.get( slashN ) ;
         getline( cin, uselessShit ) ;
-        cin.get( slashN ) ;
+        // cin.get( slashN ) ;
 
         for ( int i = 0 ; ! cin.eof() ; i ++ ) {
             getline( cin, dataBase[i].wholeSentence ) ;
             cin.get( slashN ) ;
+            cout << dataBase[i].wholeSentence << endl ;
         } // input the data to dataBase
 
         if ( FileN == 204 ) {
