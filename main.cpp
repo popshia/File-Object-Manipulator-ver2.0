@@ -1,104 +1,199 @@
 // 10627130 資工二甲 林冠良 & 10627131 資工二甲 李峻瑋
-#include <iostream> // cout, endl
-#include <fstream> // open, is_open, close, ignore
-#include <string> // string, find_last_of, substr
-#include <vector> // vector, push_back
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <vector>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstdlib>
+#include <iomanip>
+#include <algorithm>
 
 using namespace std ;
 
 static int FileN = 0 ;
 static ifstream input ;
+static ifstream input2 ;
 static ofstream output ;
 static int Count = 0 ;
 
-struct DataBase {
-    string useless = "\0" ;
+typedef struct DataBase {
+    string schoolNum = "\0" ;
     string schoolName = "\0" ;
+    string departmentNum = "\0" ;
     string departmentName = "\0" ;
-    int schoolNum = 0 ;
-    int departmentNum = 0 ;
     int student = 0 ;
     int graduated = 0 ;
     string wholeSentence = "\0" ;
-} ;
-
-typedef struct DataBase Data ;
+} Data ;
 
 class FunctionNVarieblesArea {
     vector<DataBase> dataBase ;
-    Data tempData ;
     
 public:
-    
-    bool ReadNCopy() {
-        string uselessShit = "\0" ;
-        getline( input, uselessShit ) ;
-        getline( input, uselessShit ) ;
-        getline( input, uselessShit ) ;
+    void inputData( vector<DataBase> & data ) {
+        DataBase tempData ;
+        string sentence = "\0" ;
         
-        for ( int i = 0 ; ! input.eof() ; i ++ ) {
-            getline( input, tempData.wholeSentence ) ;
+        while ( getline( input, sentence ) ) {
+            // cout << sentence << endl ;
+            tempData.wholeSentence = sentence ;
+            vector<string> cut ;
+            string token ;
+            istringstream cutStream( sentence ) ;
+            
+            while( getline( cutStream, token, '\t' ) )
+                cut.push_back( token ) ;
+            
+            tempData.schoolNum = cut[0] ;
+            tempData.schoolName = cut[1] ;
+            tempData.departmentNum = cut[2] ;
+            tempData.departmentName = cut[3] ;
+            
+            if ( cut[6].size() > 3 ) {
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), '"' ) ) ;
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), ',' ) ) ;
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), '"' ) ) ;
+            } // erase '"' & ','
+            tempData.student = atoi( cut[6].c_str() ) ;
+            
+            if ( cut[8].size() > 3 ) {
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), '"' ) ) ;
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), ',' ) ) ;
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), '"' ) ) ;
+            } // erase '"' & ','
+            tempData.graduated = atoi( cut[8].c_str() ) ;
+            data.push_back( tempData ) ;
+        } // while()
+    } // inputData()
+    
+    void inputData2( vector<DataBase> & data ) {
+        DataBase tempData ;
+        string sentence = "\0" ;
+        
+        while ( getline( input2, sentence ) ) {
+            // cout << sentence << endl ;
+            tempData.wholeSentence = sentence ;
+            vector<string> cut ;
+            string token ;
+            istringstream cutStream( sentence ) ;
+            
+            while( getline( cutStream, token, '\t' ) )
+                cut.push_back( token ) ;
+            
+            tempData.schoolNum = cut[0] ;
+            tempData.schoolName = cut[1] ;
+            tempData.departmentNum = cut[2] ;
+            tempData.departmentName = cut[3] ;
+            
+            if ( cut[6].size() > 3 ) {
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), '"' ) ) ;
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), ',' ) ) ;
+                cut[6].erase( find( cut[6].begin(), cut[6].end(), '"' ) ) ;
+            } // erase '"' & ','
+            tempData.student = atoi( cut[6].c_str() ) ;
+            
+            if ( cut[8].size() > 3 ) {
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), '"' ) ) ;
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), ',' ) ) ;
+                cut[8].erase( find( cut[8].begin(), cut[8].end(), '"' ) ) ;
+            } // erase '"' & ','
+            tempData.graduated = atoi( cut[8].c_str() ) ;
+            data.push_back( tempData ) ;
+        } // while()
+    } // inputData()
+    
+    void ReadNCopy() {
+        DataBase tempData ;
+        dataBase.clear() ;
+        string useless = "\0" ;
+        getline( input, useless ) ;
+        getline( input, useless ) ;
+        getline( input, useless ) ;
+        
+        while ( getline( input, tempData.wholeSentence ) ) {
             Count ++ ;
             dataBase.push_back( tempData ) ;
         } // input the data to dataBase
         
-        if ( FileN == 201 ) {
-            output.open( "copy201.txt" ) ;
-            for ( int i = 0 ; i < dataBase.size() ; i ++ ) output << dataBase[i].wholeSentence << endl ;
-            return true ;
-        } // copy to the new "copy201.txt" file
+        if ( FileN == 201 ) output.open( "copy201.txt" ) ;
+        else if ( FileN == 202 ) output.open( "copy202.txt" ) ;
+        else if ( FileN == 203 ) output.open( "copy203.txt" ) ;
+        else if ( FileN == 204 ) output.open( "copy204.txt" ) ;
+        else if ( FileN == 205 ) output.open( "copy205.txt" ) ;
         
-        else if ( FileN == 202 ) {
-            output.open( "copy202.txt" ) ;
-            for ( int i = 0 ; i < dataBase.size() ; i ++ ) output << dataBase[i].wholeSentence << endl ;
-            return true ;
-        } // copy to the new "copy202.txt" file
-        
-        else if ( FileN == 203 ) {
-            output.open( "copy203.txt" ) ;
-            for ( int i = 0 ; i < dataBase.size() ; i ++ ) output << dataBase[i].wholeSentence << endl ;
-            return true ;
-        } // copy to the new "copy203.txt" file
-        
-        else if ( FileN == 204 ) {
-            output.open( "copy204.txt" ) ;
-            for ( int i = 0 ; i < dataBase.size() ; i ++ ) output << dataBase[i].wholeSentence << endl ;
-            return true ;
-        } // copy to the new "copy204.txt" file
-        
-        else if ( FileN == 205 ) {
-            output.open( "copy205.txt" ) ;
-            for ( int i = 0 ; i < dataBase.size() ; i ++ ) output << dataBase[i].wholeSentence << endl ;
-            return true ;
-        } // copy to the new "copy205.txt" file
-        
-        else return false ;
+        for ( int i = 0 ; i < dataBase.size() - 1 ; i ++ ) output << dataBase[i].wholeSentence << endl ;
+        output << dataBase[dataBase.size()-1].wholeSentence ;
     } // ReadNCopy()
     
-    bool Filter() {
-        int students = 0 ;
-        int graduated = 0 ;
+    void Filter() {
+        dataBase.clear() ;
+        int studentNum = 0 ;
+        int graduatedNum = 0 ;
         cout << "Please enter number of students that you want to filter:" << endl ;
-        cin >> students ;
+        cin >> studentNum ;
         cout << "Please enter number of graduated students that you want to filter:" << endl ;
-        cin >> graduated ;
+        cin >> graduatedNum ;
+        inputData( dataBase ) ;
+        cout << studentNum << "  " << graduatedNum << endl ;
         
-        for ( int i = 0 ; input.eof() ; i ++ ) {
-            getline( input, tempData.wholeSentence ) ;
-            dataBase.push_back( tempData ) ;
-        } // for()
+        /*for ( int i = 0 ; i < dataBase.size() ; i ++ )
+            cout << dataBase[i].schoolNum << "  " << dataBase[i].schoolName << "  " << dataBase[i].student << "  " << dataBase[i].graduated << endl ;*/
         
+        if ( FileN == 201 ) output.open( "copy201.txt" ) ;
+        else if ( FileN == 202 ) output.open( "copy202.txt" ) ;
+        else if ( FileN == 203 ) output.open( "copy203.txt" ) ;
+        else if ( FileN == 204 ) output.open( "copy204.txt" ) ;
+        else if ( FileN == 205 ) output.open( "copy205.txt" ) ;
+        
+        for ( int i = 0 ; i < dataBase.size() ; i ++ ) {
+            if ( dataBase[i].student >= studentNum && dataBase[i].graduated >= graduatedNum ) {
+                // cout << dataBase[i].student << "  " << dataBase[i].graduated << endl ;
+                output << dataBase[i].wholeSentence << endl ;
+                Count ++ ;
+            } // find the one match
+        } // filter and print
     } // Filter()
+    
+    void Merge() {
+        vector<DataBase> mergeDataBase1 ;
+        vector<DataBase> mergeDataBase2 ;
+        inputData( mergeDataBase1 ) ;
+        inputData2( mergeDataBase2 ) ;
+        bool NoSame = false ;
+        
+        /*for ( int i = 0 ; i < mergeDataBase2.size() ; i ++ ) {
+            for ( int j = 0 ; j < mergeDataBase1.size() ; j ++ ) {
+                if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ) {
+                    if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum &&
+                       mergeDataBase2[i].departmentNum != mergeDataBase1[j + 1].departmentNum ) // 下一個就是別系 = 本系最後一個
+                        mergeDataBase1.insert( mergeDataBase1[j + 1], mergeDataBase2[i] ) ;
+                } // same school num & same department num
+                
+                else if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ){
+                    if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ) // 下一個就是別校 = 本校最後一個
+                        mergeDataBase1.insert( mergeDataBase1[j + 1], mergeDataBase2[i] );
+                } // same school num & not same departmnet num
+                
+                else
+                    NoSame = true;// not same school num & not same department num
+            } // for
+            
+            
+            if ( NoSame ) {
+                mergeDataBase1.push_back( mergeDataBase2[i] ) ;
+                NoSame = false;
+            } // if
+        } // for*/
+    } // Merge()
     
 } ;
 
 int main() {
-    int command = -1 ;
+    int command = 0 ;
     bool continueOrNot = false ;
-    bool work = false ;
     FunctionNVarieblesArea Class ;
     
     do {
@@ -138,42 +233,23 @@ int main() {
                 else if ( FileN != 201 && FileN != 202 && FileN != 203 && FileN != 204 && FileN != 205 )
                     cout << "*****  input" << FileN << ".txt does not exist!  *****" << endl ;
                 
-                else if ( FileN == 201 ) {
-                    input.open( "input201.txt" ) ;
+                else {
+                    if ( FileN == 201 ) input.open( "input201.txt" ) ;
+                    else if ( FileN == 202 ) input.open( "input202.txt" ) ;
+                    else if ( FileN == 203 ) input.open( "input203.txt" ) ;
+                    else if ( FileN == 204 ) input.open( "input204.txt" ) ;
+                    else if ( FileN == 205 ) input.open( "input205.txt" ) ;
                     function1Confirm = true ;
-                    work = Class.ReadNCopy() ;
+                    continueOrNot = true ;
+                    Class.ReadNCopy() ;
                 } // 204
-                
-                else if ( FileN == 202 ) {
-                    input.open( "input202.txt" ) ;
-                    function1Confirm = true ;
-                    work = Class.ReadNCopy() ;
-                } // 204
-                
-                else if ( FileN == 203 ) {
-                    input.open( "input203.txt" ) ;
-                    function1Confirm = true ;
-                    work = Class.ReadNCopy() ;
-                } // 204
-                
-                else if ( FileN == 204 ) {
-                    input.open( "input204.txt" ) ;
-                    function1Confirm = true ;
-                    work = Class.ReadNCopy() ;
-                } // 204
-                
-                else if ( FileN == 205 ) {
-                    input.open( "input205.txt" ) ;
-                    function1Confirm = true ;
-                    work = Class.ReadNCopy() ;
-                } // 205
             } while( ! function1Confirm ) ;
             
             cout << "Data Count: " << Count << endl ;
             Count = 0 ;
+            FileN = 0 ;
             input.close() ;
             output.close() ;
-            
         } // mission 1
         
         else if ( command == 2 ) {
@@ -197,7 +273,8 @@ int main() {
                     
                     else {
                         function2Confirm = true ;
-                        work = Class.Filter() ;
+                        continueOrNot = true ;
+                        Class.Filter() ;
                     } // find copy 201
                 } // test if you have already create a copy file
                 
@@ -207,7 +284,8 @@ int main() {
                     
                     else {
                         function2Confirm = true ;
-                        work = Class.Filter() ;
+                        continueOrNot = true ;
+                        Class.Filter() ;
                     } // find copy 202
                 } // test if you have already create a copy file
                 
@@ -217,7 +295,8 @@ int main() {
                     
                     else {
                         function2Confirm = true ;
-                        work = Class.Filter() ;
+                        continueOrNot = true ;
+                        Class.Filter() ;
                     } // find copy 203
                 } // test if you have already create a copy file
                 
@@ -227,7 +306,8 @@ int main() {
                     
                     else {
                         function2Confirm = true ;
-                        work = Class.Filter() ;
+                        continueOrNot = true ;
+                        Class.Filter() ;
                     } // find copy 204
                 } // test if you have already create a copy file
                 
@@ -237,11 +317,15 @@ int main() {
                     
                     else {
                         function2Confirm = true ;
-                        work = Class.Filter() ;
+                        continueOrNot = true ;
+                        Class.Filter() ;
                     } // find copy 205
                 } // test if you have already create a copy file
             } while ( ! function2Confirm ) ;
             
+            cout << "Data Count: " << Count << endl ;
+            Count = 0 ;
+            FileN = 0 ;
             input.close() ;
             output.close() ;
         } // mission 2
