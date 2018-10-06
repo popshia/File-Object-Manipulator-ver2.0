@@ -11,3 +11,16 @@
 	<string>
 	<vector>
 
+1538812004 source:\\mac\home\documents\github\file-object-manipulator-with-runruncar\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<vector>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<cstdlib>
+	<iomanip>
+	<algorithm>
+
