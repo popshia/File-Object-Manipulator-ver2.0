@@ -34,18 +34,18 @@ class FunctionNVarieblesArea {
     vector<DataBase> dataBase ;
 
 public:
-    void inputData( vector<DataBase> & data ) {
+    void inputData( vector<DataBase> & data ) { // input data into the dataBase
         DataBase tempData ;
         string sentence = "\0" ;
 
-        while ( getline( input, sentence ) ) {
+        while ( getline( input, sentence ) ) { // get the whole line
             // cout << sentence << endl ;
             tempData.wholeSentence = sentence ;
             vector<string> cut ;
             string token ;
             istringstream cutStream( sentence ) ;
 
-            while( getline( cutStream, token, '\t' ) )
+            while( getline( cutStream, token, '\t' ) ) // cut the token one by one
                 cut.push_back( token ) ;
 
             tempData.schoolNum = cut[0] ;
@@ -71,7 +71,7 @@ public:
 
     } // inputData()
 
-    void inputData2( vector<DataBase> & data ) {
+    void inputData2( vector<DataBase> & data ) { // input data for function 3
         DataBase tempData ;
         string sentence = "\0" ;
 
@@ -82,7 +82,7 @@ public:
             string token ;
             istringstream cutStream( sentence ) ;
 
-            while( getline( cutStream, token, '\t' ) )
+            while( getline( cutStream, token, '\t' )
                 cut.push_back( token ) ;
 
             tempData.schoolNum = cut[0] ;
@@ -108,7 +108,7 @@ public:
 
     } // inputData()
 
-    void ReadNCopy() {
+    void ReadNCopy() { // function 1
         DataBase tempData ;
         dataBase.clear() ;
         string useless = "\0" ;
@@ -116,7 +116,7 @@ public:
         getline( input, useless ) ;
         getline( input, useless ) ;
 
-        while ( getline( input, tempData.wholeSentence ) ) {
+        while ( getline( input, tempData.wholeSentence ) ) { // count the data and push it back
             Count ++ ;
             dataBase.push_back( tempData ) ;
         } // input the data to dataBase
@@ -131,7 +131,7 @@ public:
         output << dataBase[dataBase.size()-1].wholeSentence ;
     } // ReadNCopy()
 
-    void Filter() {
+    void Filter() { // function 2
         dataBase.clear() ;
         int studentNum = 0 ;
         int graduatedNum = 0 ;
@@ -152,7 +152,7 @@ public:
         else if ( FileN == 205 ) output.open( "copy205.txt" ) ;
 
         for ( int i = 0 ; i < dataBase.size() ; i ++ ) {
-            if ( dataBase[i].student >= studentNum && dataBase[i].graduated >= graduatedNum ) {
+            if ( dataBase[i].student >= studentNum && dataBase[i].graduated >= graduatedNum ) { // filter and output
                 // cout << dataBase[i].student << "  " << dataBase[i].graduated << endl ;
                 output << dataBase[i].wholeSentence << endl ;
                 Count ++ ;
@@ -166,38 +166,63 @@ public:
         vector<DataBase>:: iterator it;
         inputData( mergeDataBase1 ) ;
         inputData2( mergeDataBase2 ) ;
-        int same = 0 ;
+        int school = 0 ;
+        int num = 0;
+        int name = 0;
 
-        for ( int i = 0 ; i < mergeDataBase2.size() ; i ++ ) {
+        for ( int i = 0 ; i < mergeDataBase2.size() ; i ++ ) { // compare
             it = mergeDataBase1.begin();
 
             for ( int j = 0 ; j < mergeDataBase1.size() ; j ++ ) {
 
                 if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ) {
-                    if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum ) {
-                      if( mergeDataBase2[i].departmentName == mergeDataBase1[j].departmentName ) {
-                        if( mergeDataBase2[i].departmentNum != mergeDataBase1[j+1].departmentNum ) {
-                          same = j + 1;
-                        } // if
-                      } // if
-                    } // if
+                    if( mergeDataBase2[i].departmentName == mergeDataBase1[j].departmentName ) {
+                      if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum )
+                          name = j+1;
+                    } //if
 
-                else if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ){
-                        same = j + 1;
-                } // if
-               } // if                                                                                                                                                             // not same school num & not same department num
+                    else if( mergeDataBase2[i].departmentName != mergeDataBase1[j+1].departmentName )
+                        num = j+1 ;
+
+                    else if( mergeDataBase2[i].schoolNum != mergeDataBase1[j+1].schoolNum )
+                        school = j+1 ;
+
+               } // if
+
             } // for
 
-            mergeDataBase1.insert( it + same, mergeDataBase2[i] );
-            same = 0;
+
+            if( name != 0 ) mergeDataBase1.insert( it + name, mergeDataBase2[i] );
+            else  if( school != 0 )mergeDataBase1.insert( it + school, mergeDataBase2[i] );
+            else if( num != 0 )mergeDataBase1.insert( it + num, mergeDataBase2[i] );
+            else mergeDataBase1.push_back( mergeDataBase2[i] );
+
+            num = 0;
+            name = 0;
+            school = 0;
 
         } // for
 
-        if ( FileN == 201 ) output.open( "output201.txt" ) ;
-        else if ( FileN == 202 ) output.open( "output202.txt" ) ;
-        else if ( FileN == 203 ) output.open( "output203.txt" ) ;
-        else if ( FileN == 204 ) output.open( "output204.txt" ) ;
-        else if ( FileN == 205 ) output.open( "output205.txt" ) ;
+        if ( FileN == 201 && FileN2 == 202 ) output.open( "output201_202.txt" ) ;
+        else if ( FileN == 201 && FileN2 == 203 ) output.open( "output201_203.txt" ) ;
+        else if ( FileN == 201 && FileN2 == 204 ) output.open( "output201_204.txt" ) ;
+        else if ( FileN == 201 && FileN2 == 205 ) output.open( "output201_205.txt" ) ;
+        else if ( FileN == 202 && FileN2 == 201 ) output.open( "output202_201.txt" ) ;
+        else if ( FileN == 202 && FileN2 == 203 ) output.open( "output202_203.txt" ) ;
+        else if ( FileN == 202 && FileN2 == 204 ) output.open( "output202_204.txt" ) ;
+        else if ( FileN == 202 && FileN2 == 205 ) output.open( "output202_205.txt" ) ;
+        else if ( FileN == 203 && FileN2 == 201 ) output.open( "output203_201.txt" ) ;
+        else if ( FileN == 203 && FileN2 == 202 ) output.open( "output203_202.txt" ) ;
+        else if ( FileN == 203 && FileN2 == 204 ) output.open( "output203_204.txt" ) ;
+        else if ( FileN == 203 && FileN2 == 205 ) output.open( "output203_205.txt" ) ;
+        else if ( FileN == 204 && FileN2 == 201 ) output.open( "output204_201.txt" ) ;
+        else if ( FileN == 204 && FileN2 == 202 ) output.open( "output204_202.txt" ) ;
+        else if ( FileN == 204 && FileN2 == 203 ) output.open( "output204_203.txt" ) ;
+        else if ( FileN == 204 && FileN2 == 205 ) output.open( "output204_205.txt" ) ;
+        else if ( FileN == 205 && FileN2 == 201 ) output.open( "output205_201.txt" ) ;
+        else if ( FileN == 205 && FileN2 == 202 ) output.open( "output205_202.txt" ) ;
+        else if ( FileN == 205 && FileN2 == 203 ) output.open( "output205_203.txt" ) ;
+        else if ( FileN == 205 && FileN2 == 204 ) output.open( "output205_204.txt" ) ;
 
         for ( int i = 0 ; i < mergeDataBase1.size() ; i ++ ) {
           output << mergeDataBase1[i].wholeSentence << endl ;
