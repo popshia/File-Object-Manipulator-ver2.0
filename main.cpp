@@ -14,6 +14,7 @@
 using namespace std ;
 
 static int FileN = 0 ;
+static int FileN2 = 0 ;
 static ifstream input ;
 static ifstream input2 ;
 static ofstream output ;
@@ -189,16 +190,18 @@ public:
                 NoSame = false;
 
             } // if
-        } // for00
+        } // for
 
-        if ( FileN == 201 ) output.open( "copy201.txt" ) ;
-        else if ( FileN == 202 ) output.open( "copy202.txt" ) ;
-        else if ( FileN == 203 ) output.open( "copy203.txt" ) ;
-        else if ( FileN == 204 ) output.open( "copy204.txt" ) ;
-        else if ( FileN == 205 ) output.open( "copy205.txt" ) ;
+        if ( FileN == 201 ) output.open( "output201.txt" ) ;
+        else if ( FileN == 202 ) output.open( "output202.txt" ) ;
+        else if ( FileN == 203 ) output.open( "output203.txt" ) ;
+        else if ( FileN == 204 ) output.open( "output204.txt" ) ;
+        else if ( FileN == 205 ) output.open( "output205.txt" ) ;
 
-        for ( int i = 0 ; i < mergeDataBase1.size() - 1 ; i ++ ) output << mergeDataBase1[i].wholeSentence << endl ;
-        output << mergeDataBase1[mergeDataBase1.size()-1].wholeSentence ;
+        for ( int i = 0 ; i < mergeDataBase1.size() ; i ++ ) {
+          output << mergeDataBase1[i].wholeSentence << endl ;
+          Count ++ ;
+        } // for
     } // Merge()
 
 } ;
@@ -347,6 +350,7 @@ int main() {
             int secondFile = 0 ;
             bool firstOpen = false ;
             bool secondOpen = false ;
+            bool continueOrNot2 = false;
 
             while ( ! firstOpen ) {
                 cout << "Please enter the first file ( 201 - 205 ) that you want to merge or [0] to quit:" << endl ;
@@ -406,11 +410,11 @@ int main() {
                 } // 205
             } // if the first input is acceptable
 
-            while ( firstOpen && ! continueOrNot ) {
+            while ( firstOpen && ! continueOrNot2 ) {
                 cout << "Please enter the second file ( 201 - 205 ) that you want to merge or [0] to quit:" << endl ;
                 cin >> secondFile ;
 
-                if ( secondFile == 0 ) continueOrNot = true ;
+                if ( secondFile == 0 ) continueOrNot2 = true ;
 
                 else if ( secondFile != 201 && secondFile != 202 && secondFile != 203 && secondFile != 204 && secondFile != 205 && secondFile != 0 ) {
                     cout << "*****  copy" << secondFile << ".txt does not exist!  *****" << endl ;
@@ -421,7 +425,7 @@ int main() {
                     if ( ! input.is_open() ) cout << "*****  copy201.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
-                        continueOrNot = true ;
+                        continueOrNot2 = true ;
                     } // else
                 } // 201
 
@@ -430,7 +434,7 @@ int main() {
                     if ( ! input.is_open() ) cout << "*****  copy202.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
-                        continueOrNot = true ;
+                        continueOrNot2 = true ;
                     } // else
                 } // 202
 
@@ -439,7 +443,7 @@ int main() {
                     if ( ! input.is_open() ) cout << "*****  copy203.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
-                        continueOrNot = true ;
+                        continueOrNot2 = true ;
                     } // else
                 } // 203
 
@@ -448,7 +452,7 @@ int main() {
                     if ( ! input.is_open() ) cout << "*****  copy204.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
-                        continueOrNot = true ;
+                        continueOrNot2 = true ;
                     } // else
                 } // 204
 
@@ -457,14 +461,15 @@ int main() {
                     if ( ! input.is_open() ) cout << "*****  copy205.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
-                        continueOrNot = true ;
+                        continueOrNot2 = true ;
                     } // else
                 } // 205
             } // second file
 
 
             if ( firstOpen && secondOpen ) {
-                firstFile = FileN;
+                FileN = firstFile;
+                FileN2 =secondFile ;
                 Class.Merge();
                 firstOpen = false;
                 secondOpen = false;
@@ -473,6 +478,7 @@ int main() {
             cout << "Data Count: " << Count << endl ;
             Count = 0 ;
             FileN = 0 ;
+            FileN2 = 0;
             input.close() ;
             output.close() ;
 
