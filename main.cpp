@@ -164,41 +164,33 @@ public:
         vector<DataBase> mergeDataBase1 ;
         vector<DataBase> mergeDataBase2 ;
         vector<DataBase>:: iterator it;
-        DataBase tempData ;
         inputData( mergeDataBase1 ) ;
         inputData2( mergeDataBase2 ) ;
-        bool NoSame = false ;
+        int same = 0 ;
 
         for ( int i = 0 ; i < mergeDataBase2.size() ; i ++ ) {
             it = mergeDataBase1.begin();
+
             for ( int j = 0 ; j < mergeDataBase1.size() ; j ++ ) {
+
                 if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ) {
-                    if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum &&
-                       mergeDataBase2[i].departmentNum != mergeDataBase1[j + 1].departmentNum ){ // 下一個就是別系 = 本系最後一個
-                       //cout<<"same"<<endl;
-                         tempData = mergeDataBase2[i];
-                         mergeDataBase1.insert( it + j + 1, tempData ) ;
-                       } // if
-                }                                                                         // same school num & same department num
-
-                else if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ){
-                    if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ){ // 下一個就是別校 = 本校最後一個
-                    //cout<<"same"<<endl;
-                      tempData = mergeDataBase2[i];
-                      mergeDataBase1.insert( it + j + 1, tempData );
+                    if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum ) {
+                      if( mergeDataBase2[i].departmentName == mergeDataBase1[j].departmentName ) {
+                        if( mergeDataBase2[i].departmentNum != mergeDataBase1[j+1].departmentNum ) {
+                          same = j + 1;
+                        } // if
+                      } // if
                     } // if
-                }                                                                        // same school num & not same departmnet num
 
-                else
-                    NoSame = true;                                                       // not same school num & not same department num
+                else if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ){
+                        same = j + 1;
+                } // if
+               } // if                                                                                                                                                             // not same school num & not same department num
             } // for
 
+            mergeDataBase1.insert( it + same, mergeDataBase2[i] );
+            same = 0;
 
-            if ( NoSame ) {
-                mergeDataBase1.push_back( mergeDataBase2[i] ) ;
-                NoSame = false;
-
-            } // if
         } // for
 
         if ( FileN == 201 ) output.open( "output201.txt" ) ;
