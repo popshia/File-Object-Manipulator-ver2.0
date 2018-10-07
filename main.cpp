@@ -68,6 +68,7 @@ public:
             tempData.graduated = atoi( cut[8].c_str() ) ;
             data.push_back( tempData ) ;
         } // while()
+
     } // inputData()
 
     void inputData2( vector<DataBase> & data ) {
@@ -104,6 +105,7 @@ public:
             tempData.graduated = atoi( cut[8].c_str() ) ;
             data.push_back( tempData ) ;
         } // while()
+
     } // inputData()
 
     void ReadNCopy() {
@@ -162,6 +164,7 @@ public:
         vector<DataBase> mergeDataBase1 ;
         vector<DataBase> mergeDataBase2 ;
         vector<DataBase>:: iterator it;
+        DataBase tempData ;
         inputData( mergeDataBase1 ) ;
         inputData2( mergeDataBase2 ) ;
         bool NoSame = false ;
@@ -171,17 +174,23 @@ public:
             for ( int j = 0 ; j < mergeDataBase1.size() ; j ++ ) {
                 if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ) {
                     if( mergeDataBase2[i].departmentNum == mergeDataBase1[j].departmentNum &&
-                       mergeDataBase2[i].departmentNum != mergeDataBase1[j + 1].departmentNum ) // 下一個就是別系 = 本系最後一個
-                        mergeDataBase1.insert( it + j + 1, mergeDataBase2[i] ) ;
-                } // same school num & same department num
+                       mergeDataBase2[i].departmentNum != mergeDataBase1[j + 1].departmentNum ){ // 下一個就是別系 = 本系最後一個
+                       //cout<<"same"<<endl;
+                         tempData = mergeDataBase2[i];
+                         mergeDataBase1.insert( it + j + 1, tempData ) ;
+                       } // if
+                }                                                                         // same school num & same department num
 
                 else if( mergeDataBase2[i].schoolNum == mergeDataBase1[j].schoolNum ){
-                    if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ) // 下一個就是別校 = 本校最後一個
-                        mergeDataBase1.insert( it + j + 1, mergeDataBase2[i] );
-                } // same school num & not same departmnet num
+                    if( mergeDataBase2[i].schoolNum != mergeDataBase1[j + 1].schoolNum ){ // 下一個就是別校 = 本校最後一個
+                    //cout<<"same"<<endl;
+                      tempData = mergeDataBase2[i];
+                      mergeDataBase1.insert( it + j + 1, tempData );
+                    } // if
+                }                                                                        // same school num & not same departmnet num
 
                 else
-                    NoSame = true;// not same school num & not same department num
+                    NoSame = true;                                                       // not same school num & not same department num
             } // for
 
 
@@ -421,8 +430,8 @@ int main() {
                 } // wrong filename
 
                 else if ( secondFile == 201 ) {
-                    input.open( "copy201.txt" ) ;
-                    if ( ! input.is_open() ) cout << "*****  copy201.txt does not exist!  *****" << endl ;
+                    input2.open( "copy201.txt" ) ;
+                    if ( ! input2.is_open() ) cout << "*****  copy201.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
                         continueOrNot2 = true ;
@@ -430,8 +439,8 @@ int main() {
                 } // 201
 
                 else if ( secondFile == 202 ) {
-                    input.open( "copy202.txt" ) ;
-                    if ( ! input.is_open() ) cout << "*****  copy202.txt does not exist!  *****" << endl ;
+                    input2.open( "copy202.txt" ) ;
+                    if ( ! input2.is_open() ) cout << "*****  copy202.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
                         continueOrNot2 = true ;
@@ -439,8 +448,8 @@ int main() {
                 } // 202
 
                 else if ( secondFile == 203 ) {
-                    input.open( "copy203.txt" ) ;
-                    if ( ! input.is_open() ) cout << "*****  copy203.txt does not exist!  *****" << endl ;
+                    input2.open( "copy203.txt" ) ;
+                    if ( ! input2.is_open() ) cout << "*****  copy203.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
                         continueOrNot2 = true ;
@@ -448,8 +457,8 @@ int main() {
                 } // 203
 
                 else if ( secondFile == 204 ) {
-                    input.open( "copy204.txt" ) ;
-                    if ( ! input.is_open() ) cout << "*****  copy204.txt does not exist!  *****" << endl ;
+                    input2.open( "copy204.txt" ) ;
+                    if ( ! input2.is_open() ) cout << "*****  copy204.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
                         continueOrNot2 = true ;
@@ -457,8 +466,8 @@ int main() {
                 } // 204
 
                 else if ( secondFile == 205 ) {
-                    input.open( "copy205.txt" ) ;
-                    if ( ! input.is_open() ) cout << "*****  copy205.txt does not exist!  *****" << endl ;
+                    input2.open( "copy205.txt" ) ;
+                    if ( ! input2.is_open() ) cout << "*****  copy205.txt does not exist!  *****" << endl ;
                     else{
                         secondOpen = true;
                         continueOrNot2 = true ;
@@ -480,6 +489,7 @@ int main() {
             FileN = 0 ;
             FileN2 = 0;
             input.close() ;
+            input2.close() ;
             output.close() ;
 
         } // mission 3
