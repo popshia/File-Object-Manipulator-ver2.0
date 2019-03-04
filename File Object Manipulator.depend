@@ -11,3 +11,16 @@
 	<string>
 	<vector>
 
+1538926851 source:c:\users\user\documents\github\file-object-manipulator-ver2.0\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<vector>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<cstdlib>
+	<iomanip>
+	<algorithm>
+
